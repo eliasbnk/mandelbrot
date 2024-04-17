@@ -70,7 +70,6 @@ private:
     void handleEvent(Event& event, bool& update);
     void handleMouseClick(Event::MouseButtonEvent& mouseEvent);
     void handleKeyboard(Event::KeyEvent& keyEvent);
-    void handleException(const std::exception& e);
     void updateRender();
     void zoomIn();
     void zoomOut();
@@ -183,11 +182,6 @@ void ComplexPlane::handleKeyboard(Event::KeyEvent& keyEvent) {
     if (keyEvent.code == Keyboard::Escape) {
         m_window.close();
     }
-}
-
-void ComplexPlane::handleException(const std::exception& e) {
-    std::cerr << "Error: " << e.what() << std::endl;
-    m_window.close();
 }
 
 void ComplexPlane::updateRender() {
