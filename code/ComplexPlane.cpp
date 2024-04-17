@@ -6,7 +6,7 @@ const float DEFAULT_BASE_HEIGHT = 4.0;
 const float DEFAULT_BASE_ZOOM = 0.5;
 
 const Color DEFAULT_TEXT_COLOR = Color::White;
-const string DEFAULT_TEXT_FILE = "KOMIKAP_.ttf";
+const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
 const string DEFAULT_PRESENTATION_NAME = "Mandelbrot Set\n";
 const string DEFAULT_WINDOW_NAME = "Mandelbrot Set Visualizer";
 
@@ -38,7 +38,7 @@ void ComplexPlane::run() {
     RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
 
     Font font;
-    if (!font.loadFromFile(DEFAULT_TEXT_FILE)) {
+    if (!font.loadFromFile(DEFAULT_FONT_FILE)) {
         cerr << "Error loading font" << endl;
         return;
     }
