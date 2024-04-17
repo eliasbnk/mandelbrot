@@ -1,11 +1,29 @@
 g++ -g -Wall -fpermissive -std=c++17 -c -o main.o code/main.cpp
 code/main.cpp: In constructor ‘ComplexPlane::ComplexPlane(const string&, int, int, float, float, const string&, const string&, const sf::Color&, float, unsigned int)’:
-code/main.cpp:60:11: warning: ‘ComplexPlane::m_baseHeight’ will be initialized after [-Wreorder]
-   60 |     float m_baseHeight;
-      |           ^~~~~~~~~~~~
-code/main.cpp:53:11: warning:   ‘float ComplexPlane::m_aspectRatio’ [-Wreorder]
-   53 |     float m_aspectRatio;
-      |           ^~~~~~~~~~~~~
+code/main.cpp:61:11: warning: ‘ComplexPlane::m_baseZoom’ will be initialized after [-Wreorder]
+   61 |     float m_baseZoom;
+      |           ^~~~~~~~~~
+code/main.cpp:58:18: warning:   ‘unsigned int ComplexPlane::m_maxIter’ [-Wreorder]
+   58 |     unsigned int m_maxIter;
+      |                  ^~~~~~~~~
+code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
+   81 | ComplexPlane::ComplexPlane(
+      | ^~~~~~~~~~~~
+code/main.cpp:58:18: warning: ‘ComplexPlane::m_maxIter’ will be initialized after [-Wreorder]
+   58 |     unsigned int m_maxIter;
+      |                  ^~~~~~~~~
+code/main.cpp:56:9: warning:   ‘int ComplexPlane::m_zoomCount’ [-Wreorder]
+   56 |     int m_zoomCount;
+      |         ^~~~~~~~~~~
+code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
+   81 | ComplexPlane::ComplexPlane(
+      | ^~~~~~~~~~~~
+code/main.cpp:56:9: warning: ‘ComplexPlane::m_zoomCount’ will be initialized after [-Wreorder]
+   56 |     int m_zoomCount;
+      |         ^~~~~~~~~~~
+code/main.cpp:54:14: warning:   ‘sf::Vector2f ComplexPlane::m_plane_center’ [-Wreorder]
+   54 |     Vector2f m_plane_center;
+      |              ^~~~~~~~~~~~~~
 code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
    81 | ComplexPlane::ComplexPlane(
       | ^~~~~~~~~~~~
@@ -24,33 +42,6 @@ code/main.cpp:63:12: warning: ‘ComplexPlane::m_textFile’ will be initialized
 code/main.cpp:62:11: warning:   ‘sf::Color ComplexPlane::m_textColor’ [-Wreorder]
    62 |     Color m_textColor;
       |           ^~~~~~~~~~~
-code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
-   81 | ComplexPlane::ComplexPlane(
-      | ^~~~~~~~~~~~
-code/main.cpp:62:11: warning: ‘ComplexPlane::m_textColor’ will be initialized after [-Wreorder]
-   62 |     Color m_textColor;
-      |           ^~~~~~~~~~~
-code/main.cpp:61:11: warning:   ‘float ComplexPlane::m_baseZoom’ [-Wreorder]
-   61 |     float m_baseZoom;
-      |           ^~~~~~~~~~
-code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
-   81 | ComplexPlane::ComplexPlane(
-      | ^~~~~~~~~~~~
-code/main.cpp:61:11: warning: ‘ComplexPlane::m_baseZoom’ will be initialized after [-Wreorder]
-   61 |     float m_baseZoom;
-      |           ^~~~~~~~~~
-code/main.cpp:58:18: warning:   ‘unsigned int ComplexPlane::m_maxIter’ [-Wreorder]
-   58 |     unsigned int m_maxIter;
-      |                  ^~~~~~~~~
-code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
-   81 | ComplexPlane::ComplexPlane(
-      | ^~~~~~~~~~~~
-code/main.cpp:58:18: warning: ‘ComplexPlane::m_maxIter’ will be initialized after [-Wreorder]
-   58 |     unsigned int m_maxIter;
-      |                  ^~~~~~~~~
-code/main.cpp:56:9: warning:   ‘int ComplexPlane::m_zoomCount’ [-Wreorder]
-   56 |     int m_zoomCount;
-      |         ^~~~~~~~~~~
 code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
    81 | ComplexPlane::ComplexPlane(
       | ^~~~~~~~~~~~
