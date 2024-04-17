@@ -41,6 +41,7 @@ public:
         unsigned int maxIter = DEFAULT_MAX_ITER
     );
 
+    void initialize();
     void run();
 
     virtual void draw(RenderTarget& target, RenderStates states) const override;
@@ -107,55 +108,7 @@ ComplexPlane::ComplexPlane(
     m_textColor(textColor)
 {}
 
-size_t ComplexPlane::countIterations(Vector2f coord) {
-    complex<double> c(coord.x, coord.y);
-    complex<double> z(DEFAULT_Z_VALUE);
-    size_t count = 0;
-    while (abs(z) <= DEFAULT_ABS_THRESHOLD && count < m_maxIter) {
-        z = z * z + c;
-        count++;
-    }
-    return count;
-}
-
-void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) {
-    if (count == m_maxIter) {
-        r = g = b = NO_RGB_VALUE;
-    } else {
-        int region = count / (m_maxIter / MAX_ITER_REGIONS);
-        int remainder = count % (m_maxIter / MAX_ITER_REGIONS);
-        int increment = MAX_RGB_VALUE / (m_maxIter / MAX_ITER_REGIONS);
-        switch (region) {
-            case 0:
-                r = HALF_RGB_VALUE + remainder * increment;
-                g = NO_RGB_VALUE;
-                b = MAX_RGB_VALUE;
-                break;
-            case 1:
-                r = NO_RGB_VALUE;
-                g = remainder * increment;
-                b = MAX_RGB_VALUE;
-                break;
-            case 2:
-                r = NO_RGB_VALUE;
-                g = MAX_RGB_VALUE;
-                b = MAX_RGB_VALUE - remainder * increment;
-                break;
-            case 3:
-                r = remainder * increment;
-                g = MAX_RGB_VALUE;
-                b = NO_RGB_VALUE;
-                break;
-            case 4:
-                r = MAX_RGB_VALUE;
-                g = MAX_RGB_VALUE - remainder * increment;
-                b = NO_RGB_VALUE;
-                break;
-        }
-    }
-}
-
-void ComplexPlane::run() {
+void ComplexPlane::initialize() {
     Text text;
     Font font;
     if (!font.loadFromFile(m_textFile)) {
@@ -165,6 +118,14 @@ void ComplexPlane::run() {
     text.setFont(font);
     text.setCharacterSize(DEFAULT_CHARACTER_SIZE);
     text.setFillColor(m_textColor);
+    m_window.clear();
+    m_window.draw(*this);
+    m_window.draw(text);
+    m_window.display();
+}
+
+void ComplexPlane::run() {
+    initialize();
 
     bool update = true;
     
@@ -176,14 +137,14 @@ void ComplexPlane::run() {
 
         if (update) {
             updateRender();
+            Text text;
             loadText(text);
+            m_window.clear();
+            m_window.draw(*this);
+            m_window.draw(text);
+            m_window.display();
             update = false;
         }
-
-        m_window.clear();
-        m_window.draw(*this);
-        m_window.draw(text);
-        m_window.display();
     }
 }
 
@@ -274,6 +235,54 @@ void ComplexPlane::loadText(Text& text) {
     ss << "Left click to zoom in\n";
     ss << "Right click to zoom out\n";
     text.setString(ss.str());
+}
+
+size_t ComplexPlane::countIterations(Vector2f coord) {
+    complex<double> c(coord.x, coord.y);
+    complex<double> z(DEFAULT_Z_VALUE);
+    size_t count = 0;
+    while (abs(z) <= DEFAULT_ABS_THRESHOLD && count < m_maxIter) {
+        z = z * z + c;
+        count++;
+    }
+    return count;
+}
+
+void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) {
+    if (count == m_maxIter) {
+        r = g = b = NO_RGB_VALUE;
+    } else {
+        int region = count / (m_maxIter / MAX_ITER_REGIONS);
+        int remainder = count % (m_maxIter / MAX_ITER_REGIONS);
+        int increment = MAX_RGB_VALUE / (m_maxIter / MAX_ITER_REGIONS);
+        switch (region) {
+            case 0:
+                r = HALF_RGB_VALUE + remainder * increment;
+                g = NO_RGB_VALUE;
+                b = MAX_RGB_VALUE;
+                break;
+            case 1:
+                r = NO_RGB_VALUE;
+                g = remainder * increment;
+                b = MAX_RGB_VALUE;
+                break;
+            case 2:
+                r = NO_RGB_VALUE;
+                g = MAX_RGB_VALUE;
+                b = MAX_RGB_VALUE - remainder * increment;
+                break;
+            case 3:
+                r = remainder * increment;
+                g = MAX_RGB_VALUE;
+                b = NO_RGB_VALUE;
+                break;
+            case 4:
+                r = MAX_RGB_VALUE;
+                g = MAX_RGB_VALUE - remainder * increment;
+                b = NO_RGB_VALUE;
+                break;
+        }
+    }
 }
 
 Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {
