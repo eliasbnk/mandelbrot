@@ -94,19 +94,18 @@ ComplexPlane::ComplexPlane(
     m_vArray(Points, pixelWidth * pixelHeight),
     m_pixelWidth(pixelWidth),
     m_pixelHeight(pixelHeight),
+    m_aspectRatio(static_cast<float>(pixelHeight) / pixelWidth),
     m_baseWidth(baseWidth),
     m_baseHeight(baseHeight),
-    m_aspectRatio(static_cast<float>(pixelHeight) / pixelWidth),
-    m_presentationName(presentationName),
-    m_textFile(textFile),
-    m_textColor(textColor),
     m_baseZoom(baseZoom),
     m_maxIter(maxIter),
-    m_zoomCount(DEFAULT_ZOOM_COUNT)
-{
-    m_plane_center = DEFAULT_PLANE_CENTER;
-    m_plane_size = { m_baseWidth, m_baseHeight * m_aspectRatio };
-}
+    m_zoomCount(DEFAULT_ZOOM_COUNT),
+    m_plane_center(DEFAULT_PLANE_CENTER),
+    m_plane_size(Vector2f(m_baseWidth, m_baseHeight * m_aspectRatio)),
+    m_presentationName(presentationName),
+    m_textFile(textFile),
+    m_textColor(textColor)
+{}
 
 size_t ComplexPlane::countIterations(Vector2f coord) {
     complex<double> c(coord.x, coord.y);
