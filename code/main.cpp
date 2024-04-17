@@ -160,7 +160,9 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {
     return { newX, newY };
 }
 
-
+// found on: https://stackoverflow.com/questions/30202691/using-sfml-in-c-trying-to-play-a-wav-file-on-a-loop-but-it-only-plays-the-fi
+// needs tweaking
+/*
 void playMahJam() {
     Music jam;
 
@@ -173,7 +175,7 @@ void playMahJam() {
         jam.play();
     }
 }
-
+*/
 
 int main() {
     int pixelWidth = VideoMode::getDesktopMode().width / 2;
@@ -190,7 +192,7 @@ int main() {
 
     Text text("", font, 16);
     text.setFillColor(Color::White);
-    playMahJam();
+    // playMahJam();
     bool update = true;
 
     while (window.isOpen()) {
