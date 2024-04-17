@@ -10,12 +10,10 @@ const float DEFAULT_BASE_WIDTH = 4.0;
 const float DEFAULT_BASE_HEIGHT = 4.0;
 const float DEFAULT_BASE_ZOOM = 0.5;
 
-
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_TEXT_FILE = "KOMIKAP_.ttf";
 const string DEFAULT_PRESENTATION_NAME = "Mandelbrot Set\n";
 const string DEFAULT_WINDOW_NAME = "Mandelbrot Set Visualizer";
-
 
 const int DEFAULT_ZOOM_COUNT = 0;
 const Vector2f DEFAULT_PLANE_CENTER = { 0, 0 };
@@ -44,6 +42,8 @@ public:
     );
 
     void run();
+
+    virtual void draw(RenderTarget& target, RenderStates states) const override;
 
 private:
     RenderWindow m_window;
@@ -90,6 +90,8 @@ ComplexPlane::ComplexPlane(
     float baseZoom,
     unsigned int maxIter
 ) : 
+    m_window(VideoMode(pixelWidth, pixelHeight), windowName),
+    m_vArray(Points, pixelWidth * pixelHeight),
     m_pixelWidth(pixelWidth),
     m_pixelHeight(pixelHeight),
     m_baseWidth(baseWidth),
@@ -102,12 +104,8 @@ ComplexPlane::ComplexPlane(
     m_maxIter(maxIter),
     m_zoomCount(DEFAULT_ZOOM_COUNT)
 {
-    m_window.create(VideoMode(m_pixelWidth, m_pixelHeight), windowName);
     m_plane_center = DEFAULT_PLANE_CENTER;
     m_plane_size = { m_baseWidth, m_baseHeight * m_aspectRatio };
-
-    m_vArray.setPrimitiveType(Points);
-    m_vArray.resize(m_pixelWidth * m_pixelHeight);
 }
 
 size_t ComplexPlane::countIterations(Vector2f coord) {
@@ -283,6 +281,10 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {
     float newX = ((mousePixel.x - 0) / static_cast<float>(m_pixelWidth)) * m_plane_size.x + (m_plane_center.x - m_plane_size.x / 2.0);
     float newY = ((mousePixel.y - m_pixelHeight) / static_cast<float>(0 - m_pixelHeight)) * m_plane_size.y + (m_plane_center.y - m_plane_size.y / 2.0);
     return { newX, newY };
+}
+
+void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
+    target.draw(m_vArray, states);
 }
 
 int main() {
