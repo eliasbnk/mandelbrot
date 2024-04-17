@@ -54,18 +54,4 @@ code/main.cpp:56:9: warning:   ‘int ComplexPlane::m_zoomCount’ [-Wreorder]
 code/main.cpp:81:1: warning:   when initialized here [-Wreorder]
    81 | ComplexPlane::ComplexPlane(
       | ^~~~~~~~~~~~
-code/main.cpp: In function ‘int main()’:
-code/main.cpp:289:18: error: cannot declare variable ‘complexPlane’ to be of abstract type ‘ComplexPlane’
-  289 |     ComplexPlane complexPlane;
-      |                  ^~~~~~~~~~~~
-code/main.cpp:31:7: note:   because the following virtual functions are pure within ‘ComplexPlane’:
-   31 | class ComplexPlane : public Drawable {
-      |       ^~~~~~~~~~~~
-In file included from /usr/include/SFML/Graphics/Shape.hpp:32,
-                 from /usr/include/SFML/Graphics/CircleShape.hpp:32,
-                 from /usr/include/SFML/Graphics.hpp:34,
-                 from code/main.cpp:1:
-/usr/include/SFML/Graphics/Drawable.hpp:69:18: note:     ‘virtual void sf::Drawable::draw(sf::RenderTarget&, sf::RenderStates) const’
-   69 |     virtual void draw(RenderTarget& target, RenderStates states) const = 0;
-      |                  ^~~~
-make: *** [makefile:15: main.o] Error 1
+g++ -o mandelbrot.out main.o -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
