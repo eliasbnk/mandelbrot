@@ -196,28 +196,24 @@ int main() {
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
-    if (event.type == Event::Closed)
-        window.close();
-    else if (event.type == Event::MouseButtonPressed) {
-        if (event.mouseButton.button == Mouse::Right) {
-            complexPlane.zoomOut();
-            update = true;
-        } else if (event.mouseButton.button == Mouse::Left) {
-            complexPlane.zoomIn();
-            complexPlane.setCenter(Mouse::getPosition(window));
-            update = true;
+            if (event.type == Event::Closed)
+                window.close();
+            if (event.type == Event::MouseButtonPressed) {
+                if (event.mouseButton.button == Mouse::Right) {
+                    complexPlane.zoomOut();
+                    update = true;
+                }
+                if (event.mouseButton.button == Mouse::Left) {
+                    complexPlane.zoomIn();
+                    complexPlane.setCenter(Mouse::getPosition(window));
+                    update = true;
+                }
+            }
+            if (event.type == Event::MouseMoved) {
+                complexPlane.setMouseLocation(Mouse::getPosition(window));
+                update = true;
+            }
         }
-    } else if (event.type == Event::TouchBegan) {
-        if (event.touch.finger == 2) {
-            complexPlane.zoomIn();
-            complexPlane.setCenter(Mouse::getPosition(window));
-            update = true;
-        }
-    } else if (event.type == Event::MouseMoved) {
-        complexPlane.setMouseLocation(Mouse::getPosition(window));
-        update = true;
-    }
-}
 
         if (Keyboard::isKeyPressed(Keyboard::Escape))
             window.close();
