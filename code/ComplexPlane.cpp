@@ -42,19 +42,22 @@ void ComplexPlane::run() {
         cerr << "Error loading font" << endl;
         return;
     }
-    Music music;
-    if(!music.openFromFile("test_audio.wav")){
+    SoundBuffer buffer;
+    if(!buffer.loadFromFile("muzika.wav")){
         cerr << "Error loading music" << endl;
         return;
     }
-    music.setLoop(true);
+    Sound sound;
+    sound.setBuffer(buffer);
+    sound.play();
 
     Text text("", font, DEFAULT_CHARACTER_SIZE);
     text.setFillColor(DEFAULT_TEXT_COLOR);
     bool update = true;
+    
 
     while (window.isOpen()) {
-        music.play();
+        
         handleEvent(window, update);
 
         if (update) {
