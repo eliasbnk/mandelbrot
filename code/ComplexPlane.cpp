@@ -7,7 +7,9 @@ const float DEFAULT_BASE_ZOOM = 0.5;
 
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
-const string DEFAULT_MUSIC_FILE = "muzika.wav";
+const string DEFAULT_MUSIC_FILE = "LOFI_VIBES.ogg";
+//const string DEFAULT_MUSIC_FILE = "Rickroll_lofi_trim.ogg";
+const string BACKUP_MUSIC_FILE = "muzika.wav";
 const string DEFAULT_PRESENTATION_NAME = "Mandelbrot Set\n";
 const string DEFAULT_WINDOW_NAME = "Mandelbrot Set Visualizer";
 
@@ -45,8 +47,13 @@ void ComplexPlane::run() {
     }
     SoundBuffer buffer;
     if(!buffer.loadFromFile(DEFAULT_MUSIC_FILE)){
-        cerr << "Error loading music" << endl;
-        return;
+        cerr << "Error loading default music\nAttempting to load backup music..." << endl;
+        if(!buffer.loadFromFile(BACKUP_MUSIC_FILE)){
+            cerr << "Error loading backup music\nExiting Program\n";
+            return;
+        } else{
+            cout << "Backup music loaded successfully\nContinuing Program\n";
+        }
     }
     Sound sound;
     sound.setBuffer(buffer);
@@ -81,32 +88,6 @@ void ComplexPlane::run() {
 void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
     target.draw(m_vArray);
 }
-
-/*
-void ComplexPlane::updateRender() {
-    if (m_State == State::CALCULATING) {
-    auto start = std::chrono::high_resolution_clock::now(); // Start time measurement
-        for (int i = 0; i < m_pixelHeight; ++i) {
-            for (int j = 0; j < m_pixelWidth; ++j) {
-                Vector2f coord = mapPixelToCoords({ j, i });
-                size_t iterations = countIterations(coord);
-
-                Uint8 r, g, b;
-                iterationsToRGB(iterations, r, g, b);
-
-                m_vArray[j + i * m_pixelWidth].position = { (float)j, (float)i };
-                m_vArray[j + i * m_pixelWidth].color = { r, g, b };
-            }
-        }
-        m_State = State::DISPLAYING;
-        
-        auto end = std::chrono::high_resolution_clock::now(); // End time measurement
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
-
-        std::cout << "Unthreaded updateRender took " << duration.count() << " milliseconds." << std::endl;
-    }
-}
-*/
 
 void ComplexPlane::updateRender() { // Threaded version
     if (m_State == State::CALCULATING) {
