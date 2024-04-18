@@ -51,8 +51,8 @@ void ComplexPlane::run() {
     Sound sound;
     sound.setBuffer(buffer);
     sound.setLoop(true);
-    sound.play();
-    
+    thread musicThread(playMusic, std::ref(music));
+    musicThread.join();
 
     Text text("", font, DEFAULT_CHARACTER_SIZE);
     text.setFillColor(DEFAULT_TEXT_COLOR);
@@ -60,8 +60,7 @@ void ComplexPlane::run() {
     
 
     while (window.isOpen()) {
-        
-        
+
         
         handleEvent(window, update);
 
