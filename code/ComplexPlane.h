@@ -2,6 +2,7 @@
 #define COMPLEXPLANE_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <complex>
 
