@@ -7,6 +7,7 @@ const float DEFAULT_BASE_ZOOM = 0.5;
 
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
+const string DEFAULT_MUSIC_FILE = "muzika.wav";
 const string DEFAULT_PRESENTATION_NAME = "Mandelbrot Set\n";
 const string DEFAULT_WINDOW_NAME = "Mandelbrot Set Visualizer";
 
@@ -43,7 +44,7 @@ void ComplexPlane::run() {
         return;
     }
     SoundBuffer buffer;
-    if(!buffer.loadFromFile("muzika.wav")){
+    if(!buffer.loadFromFile(DEFAULT_MUSIC_FILE)){
         cerr << "Error loading music" << endl;
         return;
     }

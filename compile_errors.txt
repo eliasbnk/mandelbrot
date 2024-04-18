@@ -1,3 +1,0 @@
-g++ -g -Wall -fpermissive -std=c++17 -c -o ComplexPlane.o code/ComplexPlane.cpp
-g++ -g -Wall -fpermissive -std=c++17 -c -o main.o code/main.cpp
-g++ -o mandelbrot.out ComplexPlane.o main.o -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
