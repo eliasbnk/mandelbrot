@@ -82,8 +82,10 @@ void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
     target.draw(m_vArray);
 }
 
+/*
 void ComplexPlane::updateRender() {
     if (m_State == State::CALCULATING) {
+    auto start = std::chrono::high_resolution_clock::now(); // Start time measurement
         for (int i = 0; i < m_pixelHeight; ++i) {
             for (int j = 0; j < m_pixelWidth; ++j) {
                 Vector2f coord = mapPixelToCoords({ j, i });
@@ -97,8 +99,50 @@ void ComplexPlane::updateRender() {
             }
         }
         m_State = State::DISPLAYING;
+        
+        auto end = std::chrono::high_resolution_clock::now(); // End time measurement
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+
+        std::cout << "Unthreaded updateRender took " << duration.count() << " milliseconds." << std::endl;
     }
 }
+*/
+
+void ComplexPlane::updateRender() { // Threaded version
+    if (m_State == State::CALCULATING) {
+
+        auto start = std::chrono::high_resolution_clock::now(); // Start time measurement
+
+        std::vector<std::thread> threads;
+        threads.reserve(m_pixelHeight);
+
+        for (int i = 0; i < m_pixelHeight; ++i) {
+            threads.emplace_back([this, i]() {
+                for (int j = 0; j < m_pixelWidth; ++j) {
+                    Vector2f coord = mapPixelToCoords({ j, i });
+                    size_t iterations = countIterations(coord);
+
+                    Uint8 r, g, b;
+                    iterationsToRGB(iterations, r, g, b);
+
+                    m_vArray[j + i * m_pixelWidth].position = { (float)j, (float)i };
+                    m_vArray[j + i * m_pixelWidth].color = { r, g, b };
+                }
+                });
+        }
+
+        for (auto& thread : threads) {
+            thread.join();
+        }
+
+        m_State = State::DISPLAYING;
+        auto end = std::chrono::high_resolution_clock::now(); // End time measurement
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+
+        std::cout << "Threaded updateRender took " << duration.count() << " milliseconds." << std::endl;
+    }
+}
+
 
 void ComplexPlane::zoomIn() {
     m_zoomCount++;
