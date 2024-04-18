@@ -59,7 +59,9 @@ void ComplexPlane::run() {
     
 
     while (window.isOpen()) {
-
+        if (sound.getStatus() != SoundSource::Playing) {
+            sound.play();
+        }
         
         handleEvent(window, update);
 
