@@ -99,14 +99,14 @@ void ComplexPlane::updateRender() {
 
         int chunkSize = m_pixelHeight / numThreads;
         int remainder = m_pixelHeight % numThreads;
-        int start = 0;
-        int end = chunkSize + (remainder > 0 ? 1 : 0);
+        int startIdx = 0;
+        int endIdx = chunkSize + (remainder > 0 ? 1 : 0);
         remainder--;
 
         for (int i = 0; i < numThreads; ++i) {
-            futures.push_back(std::async(std::launch::async, &ComplexPlane::calculatePixels, this, start, end));
-            start = end;
-            end += chunkSize + (remainder > 0 ? 1 : 0);
+            futures.push_back(std::async(std::launch::async, &ComplexPlane::calculatePixels, this, startIdx, endIdx));
+            startIdx = endIdx;
+            endIdx += chunkSize + (remainder > 0 ? 1 : 0);
             remainder--;
         }
 
@@ -122,8 +122,8 @@ void ComplexPlane::updateRender() {
         }
         
         m_State = State::DISPLAYING;
-        auto end = std::chrono::high_resolution_clock::now(); // End time measurement
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+        auto end = std::chrono::high_resolution_clock::now(); 
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
         std::cout << "Threaded updateRender took " << duration.count() << " milliseconds." << std::endl;
     }
@@ -246,4 +246,17 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {
     float newX = ((mousePixel.x - 0) / static_cast<float>(m_pixelWidth)) * m_plane_size.x + (m_plane_center.x - m_plane_size.x / 2.0);
     float newY = ((mousePixel.y - m_pixelHeight) / static_cast<float>(0 - m_pixelHeight)) * m_plane_size.y + (m_plane_center.y - m_plane_size.y / 2.0);
     return { newX, newY };
+}
+
+vector<PixelData> ComplexPlane::calculatePixels(int start, int end) {
+    vector<PixelData> pixels;
+    for (int y = start; y < end; ++y) {
+        for (int x = 0; x < m_pixelWidth; ++x) {
+            size_t count = countIterations(mapPixelToCoords({x, y}));
+            Uint8 r, g, b;
+            iterationsToRGB(count, r, g, b);
+            pixels.push_back({Vector2f(x, y), Color(r, g, b), x + y * m_pixelWidth});
+        }
+    }
+    return pixels;
 }
