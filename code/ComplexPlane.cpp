@@ -84,18 +84,35 @@ void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
 
 void ComplexPlane::updateRender() {
     if (m_State == State::CALCULATING) {
-        for (int i = 0; i < m_pixelHeight; ++i) {
-            for (int j = 0; j < m_pixelWidth; ++j) {
-                Vector2f coord = mapPixelToCoords({ j, i });
-                size_t iterations = countIterations(coord);
+        const int numThreads = std::thread::hardware_concurrency();
 
-                Uint8 r, g, b;
-                iterationsToRGB(iterations, r, g, b);
+        std::vector<std::future<std::vector<PixelData>>> futures;
+        futures.reserve(numThreads);
 
-                m_vArray[j + i * m_pixelWidth].position = { (float)j, (float)i };
-                m_vArray[j + i * m_pixelWidth].color = { r, g, b };
-            }
+        int chunkSize = m_pixelHeight / numThreads;
+        int remainder = m_pixelHeight % numThreads;
+        int start = 0;
+        int end = chunkSize + (remainder > 0 ? 1 : 0);
+        remainder--;
+
+        for (int i = 0; i < numThreads; ++i) {
+            futures.push_back(std::async(std::launch::async, &ComplexPlane::calculatePixels, this, start, end));
+            start = end;
+            end += chunkSize + (remainder > 0 ? 1 : 0);
+            remainder--;
         }
+
+        std::vector<PixelData> allPixels;
+        for (auto& future : futures) {
+            auto result = future.get();
+            allPixels.insert(allPixels.end(), result.begin(), result.end());
+        }
+
+        for (const auto& pixelData : allPixels) {
+            m_vArray[pixelData.index].position = pixelData.position;
+            m_vArray[pixelData.index].color = pixelData.color;
+        }
+
         m_State = State::DISPLAYING;
     }
 }
