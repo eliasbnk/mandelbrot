@@ -7,9 +7,18 @@
 #include <thread>
 #include <complex>
 #include <chrono>
+#include <future>
+#include <vector>
 
 using namespace sf;
 using namespace std;
+
+struct PixelData {
+    Vector2f position;
+    Color color;
+    int index;
+};
+
 
 class ComplexPlane : public Drawable {
 public:
@@ -28,6 +37,7 @@ private:
     size_t countIterations(Vector2f coord);
     void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
     Vector2f mapPixelToCoords(Vector2i mousePixel);
+    vector<PixelData> calculatePixels(int start, int end);
 
     const unsigned int MAX_ITER;
     const float BASE_WIDTH;
