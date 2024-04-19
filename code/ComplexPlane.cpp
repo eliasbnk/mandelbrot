@@ -7,7 +7,9 @@ const float DEFAULT_BASE_ZOOM = 0.5;
 
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
-const string DEFAULT_MUSIC_FILE = "muzika.wav";
+const string DEFAULT_MUSIC_FILE = "LOFI_VIBES.ogg";
+const string BACKUP_MUSIC_FILE = "muzika.wav";
+
 const string DEFAULT_PRESENTATION_NAME = "Mandelbrot Set\n";
 const string DEFAULT_WINDOW_NAME = "Mandelbrot Set Visualizer";
 
@@ -45,8 +47,13 @@ void ComplexPlane::run() {
     }
     SoundBuffer buffer;
     if(!buffer.loadFromFile(DEFAULT_MUSIC_FILE)){
-        cerr << "Error loading music" << endl;
-        return;
+        cerr << "Error loading default music\nAttempting to load backup music..." << endl;
+        if(!buffer.loadFromFile(BACKUP_MUSIC_FILE)){
+            cerr << "Error loading backup music\nExiting Program\n";
+            return;
+        } else{
+            cout << "Backup music loaded successfully\nContinuing Program\n";
+        }
     }
     Sound sound;
     sound.setBuffer(buffer);
@@ -84,6 +91,7 @@ void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
 
 void ComplexPlane::updateRender() {
     if (m_State == State::CALCULATING) {
+        auto start = std::chrono::high_resolution_clock::now();
         const int numThreads = std::thread::hardware_concurrency();
 
         std::vector<std::future<std::vector<PixelData>>> futures;
@@ -112,8 +120,12 @@ void ComplexPlane::updateRender() {
             m_vArray[pixelData.index].position = pixelData.position;
             m_vArray[pixelData.index].color = pixelData.color;
         }
-
+        
         m_State = State::DISPLAYING;
+        auto end = std::chrono::high_resolution_clock::now(); // End time measurement
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+
+        std::cout << "Threaded updateRender took " << duration.count() << " milliseconds." << std::endl;
     }
 }
 
