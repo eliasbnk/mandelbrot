@@ -1,0 +1,294 @@
+g++ -g -Wall -fpermissive -std=c++17 -c -o ComplexPlane.o code/ComplexPlane.cpp
+code/ComplexPlane.cpp: In member function ‘void ComplexPlane::updateRender()’:
+code/ComplexPlane.cpp:97:26: error: ‘future’ is not a member of ‘std’
+   97 |         std::vector<std::future<std::vector<PixelData>>> futures;
+      |                          ^~~~~~
+code/ComplexPlane.cpp:2:1: note: ‘std::future’ is defined in header ‘<future>’; did you forget to ‘#include <future>’?
+    1 | #include "ComplexPlane.h"
+  +++ |+#include <future>
+    2 | 
+code/ComplexPlane.cpp:97:45: error: ‘PixelData’ was not declared in this scope
+   97 |         std::vector<std::future<std::vector<PixelData>>> futures;
+      |                                             ^~~~~~~~~
+code/ComplexPlane.cpp:97:45: error: template argument 1 is invalid
+code/ComplexPlane.cpp:97:45: error: template argument 2 is invalid
+code/ComplexPlane.cpp:97:54: error: template argument 1 is invalid
+   97 |         std::vector<std::future<std::vector<PixelData>>> futures;
+      |                                                      ^~
+code/ComplexPlane.cpp:97:54: error: template argument 2 is invalid
+code/ComplexPlane.cpp:97:56: error: expected unqualified-id before ‘>’ token
+   97 |         std::vector<std::future<std::vector<PixelData>>> futures;
+      |                                                        ^
+code/ComplexPlane.cpp:98:9: error: ‘futures’ was not declared in this scope
+   98 |         futures.reserve(numThreads);
+      |         ^~~~~~~
+code/ComplexPlane.cpp:102:13: error: conflicting declaration ‘int start’
+  102 |         int start = 0;
+      |             ^~~~~
+code/ComplexPlane.cpp:94:14: note: previous declaration as ‘std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > > start’
+   94 |         auto start = std::chrono::high_resolution_clock::now();
+      |              ^~~~~
+code/ComplexPlane.cpp:107:36: error: ‘async’ is not a member of ‘std’
+  107 |             futures.push_back(std::async(std::launch::async, &ComplexPlane::calculatePixels, this, start, end));
+      |                                    ^~~~~
+code/ComplexPlane.cpp:107:36: note: ‘std::async’ is defined in header ‘<future>’; did you forget to ‘#include <future>’?
+code/ComplexPlane.cpp:107:47: error: ‘std::launch’ has not been declared
+  107 |             futures.push_back(std::async(std::launch::async, &ComplexPlane::calculatePixels, this, start, end));
+      |                                               ^~~~~~
+code/ComplexPlane.cpp:107:77: error: ‘calculatePixels’ is not a member of ‘ComplexPlane’
+  107 |             futures.push_back(std::async(std::launch::async, &ComplexPlane::calculatePixels, this, start, end));
+      |                                                                             ^~~~~~~~~~~~~~~
+code/ComplexPlane.cpp:108:21: error: no match for ‘operator=’ (operand types are ‘std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >’ and ‘int’)
+  108 |             start = end;
+      |                     ^~~
+In file included from /usr/include/c++/11/bits/this_thread_sleep.h:38,
+                 from /usr/include/c++/11/thread:44,
+                 from code/ComplexPlane.h:7,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/chrono:872:14: note: candidate: ‘constexpr std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >& std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >::operator=(const std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >&)’
+  872 |       struct time_point
+      |              ^~~~~~~~~~
+/usr/include/c++/11/chrono:872:14: note:   no known conversion for argument 1 from ‘int’ to ‘const std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >&’
+/usr/include/c++/11/chrono:872:14: note: candidate: ‘constexpr std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >& std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >::operator=(std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >&&)’
+/usr/include/c++/11/chrono:872:14: note:   no known conversion for argument 1 from ‘int’ to ‘std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >&&’
+code/ComplexPlane.cpp:113:30: error: template argument 2 is invalid
+  113 |         std::vector<PixelData> allPixels;
+      |                              ^
+code/ComplexPlane.cpp:116:23: error: request for member ‘insert’ in ‘allPixels’, which is of non-class type ‘int’
+  116 |             allPixels.insert(allPixels.end(), result.begin(), result.end());
+      |                       ^~~~~~
+code/ComplexPlane.cpp:116:40: error: request for member ‘end’ in ‘allPixels’, which is of non-class type ‘int’
+  116 |             allPixels.insert(allPixels.end(), result.begin(), result.end());
+      |                                        ^~~
+code/ComplexPlane.cpp:119:38: error: ‘begin’ was not declared in this scope; did you mean ‘std::begin’?
+  119 |         for (const auto& pixelData : allPixels) {
+      |                                      ^~~~~~~~~
+      |                                      std::begin
+In file included from /usr/include/c++/11/string:54,
+                 from /usr/include/c++/11/bits/locale_classes.h:40,
+                 from /usr/include/c++/11/bits/ios_base.h:41,
+                 from /usr/include/c++/11/ios:42,
+                 from /usr/include/c++/11/ostream:38,
+                 from /usr/include/SFML/System/Err.hpp:32,
+                 from /usr/include/SFML/System.hpp:34,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/bits/range_access.h:108:37: note: ‘std::begin’ declared here
+  108 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
+      |                                     ^~~~~
+code/ComplexPlane.cpp:119:38: error: ‘end’ was not declared in this scope; did you mean ‘std::end’?
+  119 |         for (const auto& pixelData : allPixels) {
+      |                                      ^~~~~~~~~
+      |                                      std::end
+In file included from /usr/include/c++/11/string:54,
+                 from /usr/include/c++/11/bits/locale_classes.h:40,
+                 from /usr/include/c++/11/bits/ios_base.h:41,
+                 from /usr/include/c++/11/ios:42,
+                 from /usr/include/c++/11/ostream:38,
+                 from /usr/include/SFML/System/Err.hpp:32,
+                 from /usr/include/SFML/System.hpp:34,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/bits/range_access.h:110:37: note: ‘std::end’ declared here
+  110 |   template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
+      |                                     ^~~
+code/ComplexPlane.cpp:125:14: error: conflicting declaration ‘auto end’
+  125 |         auto end = std::chrono::high_resolution_clock::now(); // End time measurement
+      |              ^~~
+code/ComplexPlane.cpp:103:13: note: previous declaration as ‘int end’
+  103 |         int end = chunkSize + (remainder > 0 ? 1 : 0);
+      |             ^~~
+code/ComplexPlane.cpp:126:83: error: no match for ‘operator-’ (operand types are ‘int’ and ‘std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >’)
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                               ~~~ ^ ~~~~~
+      |                                                                               |     |
+      |                                                                               int   std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >
+In file included from /usr/include/SFML/System/Vector2.hpp:250,
+                 from /usr/include/SFML/System.hpp:48,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/SFML/System/Vector2.inl:58:19: note: candidate: ‘template<class T> sf::Vector2<T> sf::operator-(const sf::Vector2<T>&)’
+   58 | inline Vector2<T> operator -(const Vector2<T>& right)
+      |                   ^~~~~~~~
+/usr/include/SFML/System/Vector2.inl:58:19: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const sf::Vector2<T>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/SFML/System/Vector2.hpp:250,
+                 from /usr/include/SFML/System.hpp:48,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/SFML/System/Vector2.inl:96:19: note: candidate: ‘template<class T> sf::Vector2<T> sf::operator-(const sf::Vector2<T>&, const sf::Vector2<T>&)’
+   96 | inline Vector2<T> operator -(const Vector2<T>& left, const Vector2<T>& right)
+      |                   ^~~~~~~~
+/usr/include/SFML/System/Vector2.inl:96:19: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const sf::Vector2<T>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/SFML/System/Vector3.hpp:252,
+                 from /usr/include/SFML/System.hpp:49,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/SFML/System/Vector3.inl:61:19: note: candidate: ‘template<class T> sf::Vector3<T> sf::operator-(const sf::Vector3<T>&)’
+   61 | inline Vector3<T> operator -(const Vector3<T>& left)
+      |                   ^~~~~~~~
+/usr/include/SFML/System/Vector3.inl:61:19: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const sf::Vector3<T>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/SFML/System/Vector3.hpp:252,
+                 from /usr/include/SFML/System.hpp:49,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/SFML/System/Vector3.inl:101:19: note: candidate: ‘template<class T> sf::Vector3<T> sf::operator-(const sf::Vector3<T>&, const sf::Vector3<T>&)’
+  101 | inline Vector3<T> operator -(const Vector3<T>& left, const Vector3<T>& right)
+      |                   ^~~~~~~~
+/usr/include/SFML/System/Vector3.inl:101:19: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const sf::Vector3<T>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/c++/11/bits/stl_algobase.h:67,
+                 from /usr/include/c++/11/bits/char_traits.h:39,
+                 from /usr/include/c++/11/ios:40,
+                 from /usr/include/c++/11/ostream:38,
+                 from /usr/include/SFML/System/Err.hpp:32,
+                 from /usr/include/SFML/System.hpp:34,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/bits/stl_iterator.h:577:5: note: candidate: ‘template<class _IteratorL, class _IteratorR> constexpr decltype ((__y.base() - __x.base())) std::operator-(const std::reverse_iterator<_Iterator>&, const std::reverse_iterator<_IteratorR>&)’
+  577 |     operator-(const reverse_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/11/bits/stl_iterator.h:577:5: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::reverse_iterator<_Iterator>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/c++/11/bits/stl_algobase.h:67,
+                 from /usr/include/c++/11/bits/char_traits.h:39,
+                 from /usr/include/c++/11/ios:40,
+                 from /usr/include/c++/11/ostream:38,
+                 from /usr/include/SFML/System/Err.hpp:32,
+                 from /usr/include/SFML/System.hpp:34,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/bits/stl_iterator.h:1693:5: note: candidate: ‘template<class _IteratorL, class _IteratorR> constexpr decltype ((__x.base() - __y.base())) std::operator-(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorR>&)’
+ 1693 |     operator-(const move_iterator<_IteratorL>& __x,
+      |     ^~~~~~~~
+/usr/include/c++/11/bits/stl_iterator.h:1693:5: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::move_iterator<_IteratorL>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from code/ComplexPlane.h:8,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/complex:362:5: note: candidate: ‘template<class _Tp> std::complex<_Tp> std::operator-(const std::complex<_Tp>&, const std::complex<_Tp>&)’
+  362 |     operator-(const complex<_Tp>& __x, const complex<_Tp>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/11/complex:362:5: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::complex<_Tp>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from code/ComplexPlane.h:8,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/complex:371:5: note: candidate: ‘template<class _Tp> std::complex<_Tp> std::operator-(const std::complex<_Tp>&, const _Tp&)’
+  371 |     operator-(const complex<_Tp>& __x, const _Tp& __y)
+      |     ^~~~~~~~
+/usr/include/c++/11/complex:371:5: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::complex<_Tp>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from code/ComplexPlane.h:8,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/complex:380:5: note: candidate: ‘template<class _Tp> std::complex<_Tp> std::operator-(const _Tp&, const std::complex<_Tp>&)’
+  380 |     operator-(const _Tp& __x, const complex<_Tp>& __y)
+      |     ^~~~~~~~
+/usr/include/c++/11/complex:380:5: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   ‘std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >’ is not derived from ‘const std::complex<_Tp>’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from code/ComplexPlane.h:8,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/complex:457:5: note: candidate: ‘template<class _Tp> std::complex<_Tp> std::operator-(const std::complex<_Tp>&)’
+  457 |     operator-(const complex<_Tp>& __x)
+      |     ^~~~~~~~
+/usr/include/c++/11/complex:457:5: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::complex<_Tp>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/c++/11/bits/this_thread_sleep.h:38,
+                 from /usr/include/c++/11/thread:44,
+                 from code/ComplexPlane.h:7,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/chrono:660:7: note: candidate: ‘template<class _Rep1, class _Period1, class _Rep2, class _Period2> constexpr typename std::common_type<std::chrono::duration<_Rep1, _Period1>, std::chrono::duration<_Rep2, _Period2> >::type std::chrono::operator-(const std::chrono::duration<_Rep1, _Period1>&, const std::chrono::duration<_Rep2, _Period2>&)’
+  660 |       operator-(const duration<_Rep1, _Period1>& __lhs,
+      |       ^~~~~~~~
+/usr/include/c++/11/chrono:660:7: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::chrono::duration<_Rep1, _Period1>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/c++/11/bits/this_thread_sleep.h:38,
+                 from /usr/include/c++/11/thread:44,
+                 from code/ComplexPlane.h:7,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/chrono:1030:7: note: candidate: ‘template<class _Clock, class _Dur1, class _Rep2, class _Period2> constexpr std::chrono::time_point<_Clock, typename std::common_type<_Dur1, std::chrono::duration<_Rep2, _Period2> >::type> std::chrono::operator-(const std::chrono::time_point<_Clock, _Duration1>&, const std::chrono::duration<_Rep2, _Period2>&)’
+ 1030 |       operator-(const time_point<_Clock, _Dur1>& __lhs,
+      |       ^~~~~~~~
+/usr/include/c++/11/chrono:1030:7: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::chrono::time_point<_Clock, _Duration1>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/c++/11/bits/this_thread_sleep.h:38,
+                 from /usr/include/c++/11/thread:44,
+                 from code/ComplexPlane.h:7,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/c++/11/chrono:1042:7: note: candidate: ‘template<class _Clock, class _Dur1, class _Dur2> constexpr typename std::common_type<_Duration1, _Duration2>::type std::chrono::operator-(const std::chrono::time_point<_Clock, _Duration1>&, const std::chrono::time_point<_Clock, _Duration2>&)’
+ 1042 |       operator-(const time_point<_Clock, _Dur1>& __lhs,
+      |       ^~~~~~~~
+/usr/include/c++/11/chrono:1042:7: note:   template argument deduction/substitution failed:
+code/ComplexPlane.cpp:126:85: note:   mismatched types ‘const std::chrono::time_point<_Clock, _Duration1>’ and ‘int’
+  126 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); // Calculate duration
+      |                                                                                     ^~~~~
+In file included from /usr/include/SFML/System/Clock.hpp:32,
+                 from /usr/include/SFML/System.hpp:33,
+                 from /usr/include/SFML/Window.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:32,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/SFML/System/Time.hpp:232:22: note: candidate: ‘sf::Time sf::operator-(sf::Time)’
+  232 | SFML_SYSTEM_API Time operator -(Time right);
+      |                      ^~~~~~~~
+/usr/include/SFML/System/Time.hpp:232:22: note:   candidate expects 1 argument, 2 provided
+/usr/include/SFML/System/Time.hpp:268:22: note: candidate: ‘sf::Time sf::operator-(sf::Time, sf::Time)’
+  268 | SFML_SYSTEM_API Time operator -(Time left, Time right);
+      |                      ^~~~~~~~
+/usr/include/SFML/System/Time.hpp:268:38: note:   no known conversion for argument 1 from ‘int’ to ‘sf::Time’
+  268 | SFML_SYSTEM_API Time operator -(Time left, Time right);
+      |                                 ~~~~~^~~~
+In file included from /usr/include/SFML/Graphics/Vertex.hpp:32,
+                 from /usr/include/SFML/Graphics/VertexArray.hpp:32,
+                 from /usr/include/SFML/Graphics/Shape.hpp:34,
+                 from /usr/include/SFML/Graphics/CircleShape.hpp:32,
+                 from /usr/include/SFML/Graphics.hpp:34,
+                 from code/ComplexPlane.h:4,
+                 from code/ComplexPlane.cpp:1:
+/usr/include/SFML/Graphics/Color.hpp:158:25: note: candidate: ‘sf::Color sf::operator-(const sf::Color&, const sf::Color&)’
+  158 | SFML_GRAPHICS_API Color operator -(const Color& left, const Color& right);
+      |                         ^~~~~~~~
+/usr/include/SFML/Graphics/Color.hpp:158:49: note:   no known conversion for argument 1 from ‘int’ to ‘const sf::Color&’
+  158 | SFML_GRAPHICS_API Color operator -(const Color& left, const Color& right);
+      |                                    ~~~~~~~~~~~~~^~~~
+make: *** [makefile:15: ComplexPlane.o] Error 1
