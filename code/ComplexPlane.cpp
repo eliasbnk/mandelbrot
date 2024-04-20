@@ -8,8 +8,7 @@ const float DEFAULT_BASE_ZOOM = 0.5;
 const Color DEFAULT_TEXT_COLOR = Color::White;
 const string DEFAULT_FONT_FILE = "KOMIKAP_.ttf";
 const string DEFAULT_MUSIC_FILE = "LOFI_VIBES_19min.ogg";
-//const string DEFAULT_MUSIC_FILE = "Rickroll_lofi_trim.ogg";
-const string BACKUP_MUSIC_FILE = "muzika.wav";
+const string BACKUP_MUSIC_FILE = "Rickroll_lofi_trim.ogg";
 const string DEFAULT_PRESENTATION_NAME = "Mandelbrot Set\n";
 const string DEFAULT_WINDOW_NAME = "Mandelbrot Set Visualizer";
 
@@ -38,6 +37,27 @@ ComplexPlane::ComplexPlane()
 }
 
 void ComplexPlane::run() {
+
+    SoundBuffer buffer;
+    auto music_load_start = std::chrono::high_resolution_clock::now(); // Start time measurement
+    if(!buffer.loadFromFile(DEFAULT_MUSIC_FILE)){
+        cerr << "Error loading " << DEFAULT_MUSIC_FILE << "\nAttempting to load backup music..." << endl;
+        if(!buffer.loadFromFile(BACKUP_MUSIC_FILE)){
+            cerr << "Error loading " << BACKUP_MUSIC_FILE << "\nExiting Program\n";
+            return;
+        } else{
+            cout << BACKUP_MUSIC_FILE << " loaded successfully\nContinuing Program\n";
+        }
+    } else{cout << DEFAULT_MUSIC_FILE << " loaded successfully\n";}
+    Sound sound;
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
+    // sound.play();
+    auto music_load_end = std::chrono::high_resolution_clock::now(); // End time measurement
+    auto music_load_duration = std::chrono::duration_cast<std::chrono::milliseconds>(music_load_end - music_load_start); // Calculate duration
+
+    std::cout << "Loading music took "  << music_load_duration.count() << " milliseconds." << std::endl;
+
     RenderWindow window(VideoMode(m_pixelWidth, m_pixelHeight), DEFAULT_WINDOW_NAME);
 
     Font font;
@@ -45,26 +65,6 @@ void ComplexPlane::run() {
         cerr << "Error loading font" << endl;
         return;
     }
-    SoundBuffer buffer;
-    auto music_load_start = std::chrono::high_resolution_clock::now(); // Start time measurement
-    if(!buffer.loadFromFile(DEFAULT_MUSIC_FILE)){
-        cerr << "Error loading default music\nAttempting to load backup music..." << endl;
-        if(!buffer.loadFromFile(BACKUP_MUSIC_FILE)){
-            cerr << "Error loading backup music\nExiting Program\n";
-            return;
-        } else{
-            cout << "Backup music loaded successfully\nContinuing Program\n";
-        }
-    }
-    Sound sound;
-    sound.setBuffer(buffer);
-    sound.setLoop(true);
-    sound.play();
-    auto music_load_end = std::chrono::high_resolution_clock::now(); // End time measurement
-    auto music_load_duration = std::chrono::duration_cast<std::chrono::milliseconds>(music_load_end - music_load_start); // Calculate duration
-
-    std::cout << "Loading " << DEFAULT_MUSIC_FILE << " took "  << music_load_duration.count() << " milliseconds." << std::endl;
-
 
     Text text("", font, DEFAULT_CHARACTER_SIZE);
     text.setFillColor(DEFAULT_TEXT_COLOR);
