@@ -6,6 +6,7 @@
 #include <iostream>
 #include <thread>
 #include <complex>
+#include <chrono>
 
 using namespace sf;
 using namespace std;
